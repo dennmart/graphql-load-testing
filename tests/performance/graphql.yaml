@@ -5,7 +5,7 @@ config:
       arrivalRate: 25
 
 scenarios:
-  - name: "Create messages flow"
+  - name: "Create and fetch messages flow"
     flow:
       - post:
           url: "/"
@@ -55,7 +55,24 @@ scenarios:
                 variables:
                   authorId: "{{ userId }}"
                   body: "Message Body {{ $loopCount }}"
-        count: 10
+        count: 100
+
+      - post:
+          url: "/"
+          json:
+            query: |
+              query Query($userId: ID!) {
+                user(id: $userId) {
+                  username
+                  email
+                  messages {
+                    id
+                    body
+                  }
+                }
+              }
+            variables:
+              userId: "{{ userId }}"
 
       - post:
           url: "/"
