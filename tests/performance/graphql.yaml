@@ -1,0 +1,131 @@
+config:
+  target: "http://localhost:4000/"
+  phases:
+    - duration: 60
+      arrivalRate: 25
+
+scenarios:
+  - name: "Create messages flow"
+    flow:
+      - post:
+          url: "/"
+          json:
+            query: |
+              mutation CreateUserMutation($input: CreateUserInput) {
+                createUser(input: $input) {
+                  email
+                }
+              }
+            variables:
+              input:
+                username: "{{ $randomString() }}"
+                email: "user-{{ $randomString() }}@artillery.io"
+                password: "my-useful-password"
+          capture:
+            json: "$.data.createUser.email"
+            as: "userEmail"
+
+      - post:
+          url: "/"
+          json:
+            query: |
+              mutation LoginUserMutation($email: String!, $password: String!) {
+                loginUser(email: $email, password: $password) {
+                  id
+                }
+              }
+            variables:
+              email: "{{ userEmail }}"
+              password: "my-useful-password"
+          capture:
+            json: "$.data.loginUser.id"
+            as: "userId"
+
+      - loop:
+          - post:
+              url: "/"
+              json:
+                query: |
+                  mutation CreateMessageMutation($authorId: ID!, $body: String!) {
+                    createMessage(authorId: $authorId, body: $body) {
+                      id
+                      body
+                    }
+                  }
+                variables:
+                  authorId: "{{ userId }}"
+                  body: "Message Body {{ $loopCount }}"
+        count: 10
+
+      - post:
+          url: "/"
+          json:
+            query: |
+              mutation DeleteUserMutation($deleteUserId: ID!) {
+                deleteUser(id: $deleteUserId) {
+                  id
+                }
+              }
+            variables:
+              deleteUserId: "{{ userId }}"
+
+  - name: "Update password flow"
+    flow:
+      - post:
+          url: "/"
+          json:
+            query: |
+              mutation CreateUserMutation($input: CreateUserInput) {
+                createUser(input: $input) {
+                  email
+                }
+              }
+            variables:
+              input:
+                username: "{{ $randomString() }}"
+                email: "user-{{ $randomString() }}@artillery.io"
+                password: "my-useful-password"
+          capture:
+            json: "$.data.createUser.email"
+            as: "userEmail"
+
+      - post:
+          url: "/"
+          json:
+            query: |
+              mutation LoginUserMutation($email: String!, $password: String!) {
+                loginUser(email: $email, password: $password) {
+                  id
+                }
+              }
+            variables:
+              email: "{{ userEmail }}"
+              password: "my-useful-password"
+          capture:
+            json: "$.data.loginUser.id"
+            as: "userId"
+
+      - post:
+          url: "/"
+          json:
+            query: |
+              mutation UpdateUserMutation($updateUserId: ID!, $input: UpdateUserInput) {
+                updateUser(id: $updateUserId, input: $input) {
+                  id
+                }
+              }
+            variables:
+              updateUserId: "{{ userId }}"
+              password: "my-new-password"
+
+      - post:
+          url: "/"
+          json:
+            query: |
+              mutation DeleteUserMutation($deleteUserId: ID!) {
+                deleteUser(id: $deleteUserId) {
+                  id
+                }
+              }
+            variables:
+              deleteUserId: "{{ userId }}"
