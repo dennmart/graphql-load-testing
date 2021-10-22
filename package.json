@@ -7,7 +7,7 @@
     "test": "artillery run tests/performance/graphql.yaml"
   },
   "author": "Dennis Martinez",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@prisma/client": "^3.3.0",
     "apollo-server": "^3.4.0",
