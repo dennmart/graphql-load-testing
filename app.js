@@ -3,7 +3,7 @@ const { PrismaClient } = require('@prisma/client');
 const bcrypt = require('bcrypt');
 
 const prisma = new PrismaClient({
-  log: ['query', 'info', 'warn', 'error']
+  log: process.env.NODE_ENV === 'production' ? ['query'] : ['query', 'info', 'warn', 'error']
 });
 
 const typeDefs = gql`
