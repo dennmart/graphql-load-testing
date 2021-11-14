@@ -33,7 +33,7 @@ const typeDefs = gql`
   }
 
   type Query {
-    users: [User],
+    users(limit: Int): [User],
     user(id: ID!): User
     userByUsername(username: String!): User
     userByEmail(username: String!): User
@@ -54,8 +54,9 @@ const typeDefs = gql`
 
 const resolvers = {
   Query: {
-    users: async () => {
+    users: async (_, { limit }) => {
       return await prisma.user.findMany({
+        take: limit || 100,
         include: {
           messages: true
         }
