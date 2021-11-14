@@ -9,13 +9,13 @@
   "author": "Dennis Martinez",
   "license": "MIT",
   "dependencies": {
-    "@prisma/client": "^3.3.0",
+    "@prisma/client": "^3.4.2",
     "apollo-server": "^3.4.0",
     "bcrypt": "^5.0.1",
     "graphql": "^15.6.1"
   },
   "devDependencies": {
     "artillery": "^1.7.9",
-    "prisma": "^3.3.0"
+    "prisma": "^3.4.2"
   }
 }
