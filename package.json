@@ -16,6 +16,10 @@
   },
   "devDependencies": {
     "artillery": "^1.7.9",
+    "faker": "^5.5.3",
     "prisma": "^3.4.2"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.js"
   }
 }
