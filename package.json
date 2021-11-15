@@ -4,7 +4,8 @@
   "description": "Load testing a GraphQL API using Artillery",
   "main": "app.js",
   "scripts": {
-    "test": "artillery run tests/performance/graphql.yaml"
+    "test:graphql": "artillery run tests/performance/graphql.yaml",
+    "test:users": "artillery run tests/performance/users.yaml"
   },
   "author": "Dennis Martinez",
   "license": "MIT",

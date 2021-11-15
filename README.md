@@ -26,10 +26,11 @@ node app.js
 
 This command will start the GraphQL API server listening at http://localhost:4000/. Once the server is up and running, you can explore the server using the [Apollo Sandbox](https://studio.apollographql.com/sandbox/).
 
-## Running Artillery test
+## Running Artillery tests
 
-This repo contains a test script ([`tests/performance/graphql.yml`]) which runs a few end-to-end flows against the GraphQL server. Once the GraphQL server is up and running, execute the test script:
+This repo contains two test scripts ([`tests/performance/graphql.yml`] and [`tests/performance/users.yml`]) which runs a few end-to-end flows against the GraphQL server. Once the GraphQL server is up and running, execute the test scripts:
 
 ```
-npm test
+npm run test:graphql
+npm run test:users
 ```
